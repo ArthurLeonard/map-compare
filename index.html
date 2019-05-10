@@ -80,7 +80,7 @@ var beforeMap = new mapboxgl.Map({
     container: 'before',
     style: 'mapbox://styles/mapbox/streets-v10',
     center: [-73.998, 40.715],
-    zoom: 18,
+    zoom: 14,
     //interactive: false,
     pitch: 60,
     bearing: 50
@@ -88,13 +88,14 @@ var beforeMap = new mapboxgl.Map({
   
   beforeMap.addControl(new mapboxgl.NavigationControl());
 
+
 var afterMap = new mapboxgl.Map({
     container: 'after',
    //style: 'dark',
    style: 'mapbox://styles/mapbox/satellite-v8',
     //center: [37.77493, -122.41942],
   center: [-73.98,40.574],
-    zoom: 18,
+    zoom: 14,
     //interactive: false,
     pitch: 60
      
@@ -109,24 +110,43 @@ if (e.target.checked) {
 }
 });
 
+var start = [-73.998, 40.715];
+var end = [-73.98,40.574];
+var isAtStart = true;
  document.getElementById('switch').addEventListener('change', function(e) {
-	 afterMap.flyTo({
+    var target = isAtStart ? end : start;
+ 
+    // and now we're at the opposite point
+    isAtStart = !isAtStart;
+	  if ( flag !== 0 && flag % 2 === 1){
+      afterMap.flyTo({
 // container: 'after',
 //    //style: 'dark',
 //    style: 'mapbox://styles/mapbox/satellite-v8',
 //     //center: [37.77493, -122.41942],
-  center: [-73.98,40.574],
-    zoom: 18,
+      center: target,
+      zoom: 18,
     //interactive: false,
-    pitch: 60
+      pitch: 60,
+      speed: 0.2,
+      curve: 0.5,
+
+    // This can be any easing function: it takes a number between
+// 0 and 1 and returns another number between 0 and 1.
+    //easing: function (t) { return t; }  
+  });
+  } //end if 
+
+    
 });
+
 // var handler = e.target.id;
 // if (e.target.checked) {
 //   rotateCamera(0);
 // } else {
 //   //rotateCamera(500);
 //}
-});
+
   
   // pixels the map pans when the up or down arrow is clicked
 var deltaDistance = 100;
